@@ -1,0 +1,13 @@
+fastapi>=0.99.0
+mangum
+requests
+python-jose
+pydantic>=2.0
+motor
+python-dotenv
+cloudinary
+email-validator
+python-multipart
+aiofiles
+uvicorn
+google-auth
