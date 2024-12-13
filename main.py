@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from auth import router as auth_router
-from events import router as events_router
+from markers import router as markers_router
 from fastapi.responses import JSONResponse
 from fastapi import Request
 
@@ -21,13 +21,13 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # CORS Configuration
 origins = [
-    "https://eventual-frontend.vercel.app",  # Replace with your actual frontend URL
-    "http://localhost:5173",  # For local development
+    "<https://eventual-frontend.vercel.app>",  # Replace with your actual frontend URL
+    "<http://localhost:5173>",  # For local development
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],  # Allow all origins for simplicity
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -35,4 +35,4 @@ app.add_middleware(
 
 # Include routers after adding middleware
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
-app.include_router(events_router, prefix="/events", tags=["Events"])
+app.include_router(markers_router, prefix="/markers", tags=["Markers"])

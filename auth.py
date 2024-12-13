@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, Request, Header
+from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer
 import os
@@ -19,13 +19,12 @@ GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = "HS256"
 
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
 
 
 @router.get("/login")
 def login():
-    google_auth_endpoint = "https://accounts.google.com/o/oauth2/v2/auth"
+    google_auth_endpoint = "<https://accounts.google.com/o/oauth2/v2/auth>"
     scope = "openid email"
     access_type = "offline"
     response_type = "code"
@@ -48,7 +47,7 @@ async def callback(request: Request):
     if not code:
         raise HTTPException(status_code=400, detail="Authorization code not found")
 
-    token_endpoint = "https://oauth2.googleapis.com/token"
+    token_endpoint = "<https://oauth2.googleapis.com/token>"
     token_params = {
         "client_id": GOOGLE_CLIENT_ID,
         "client_secret": GOOGLE_CLIENT_SECRET,
@@ -101,7 +100,9 @@ async def callback(request: Request):
     return RedirectResponse(redirect_url)
 
 
-async def get_current_user(request: Request, token: str = Depends(oauth2_scheme)):
+async def get_current_user(
+    request: Request, token: str = Depends(oauth2_scheme)
+) -> dict:
     # Skip authentication for OPTIONS requests
     if request.method == "OPTIONS":
         return None  # Or return a default value
@@ -116,7 +117,7 @@ async def get_current_user(request: Request, token: str = Depends(oauth2_scheme)
             raise HTTPException(
                 status_code=401, detail="Invalid authentication credentials"
             )
-        return email
+        return {"email": email, "token": token}
     except JWTError:
         raise HTTPException(
             status_code=401, detail="Invalid authentication credentials"
