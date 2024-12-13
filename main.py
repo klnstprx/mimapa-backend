@@ -21,8 +21,8 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 # CORS Configuration
 origins = [
-    "<https://eventual-frontend.vercel.app>",  # Replace with your actual frontend URL
-    "<http://localhost:5173>",  # For local development
+    "https://mimapa-frontend.vercel.app",  # Replace with your actual frontend URL
+    "http://localhost:5173",  # For local development
 ]
 
 app.add_middleware(

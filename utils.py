@@ -19,7 +19,7 @@ def create_access_token(data: dict, expires_delta: timedelta):
 
 def geocode_address(address: str):
     GEOCODING_API_KEY = os.getenv("GEOCODING_API_KEY")
-    url = "<https://api.opencagedata.com/geocode/v1/json>"
+    url = "https://api.opencagedata.com/geocode/v1/json"
     params = {
         "q": address,
         "key": GEOCODING_API_KEY,

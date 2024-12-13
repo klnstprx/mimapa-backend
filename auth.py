@@ -24,7 +24,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token", auto_error=False)
 
 @router.get("/login")
 def login():
-    google_auth_endpoint = "<https://accounts.google.com/o/oauth2/v2/auth>"
+    google_auth_endpoint = "https://accounts.google.com/o/oauth2/v2/auth"
     scope = "openid email"
     access_type = "offline"
     response_type = "code"
@@ -47,7 +47,7 @@ async def callback(request: Request):
     if not code:
         raise HTTPException(status_code=400, detail="Authorization code not found")
 
-    token_endpoint = "<https://oauth2.googleapis.com/token>"
+    token_endpoint = "https://oauth2.googleapis.com/token"
     token_params = {
         "client_id": GOOGLE_CLIENT_ID,
         "client_secret": GOOGLE_CLIENT_SECRET,
